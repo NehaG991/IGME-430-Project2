@@ -52,8 +52,14 @@ const signup = async (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+};
+
 module.exports = {
   loginPage,
   login,
   signup,
+  logout,
 };

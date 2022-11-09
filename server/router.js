@@ -9,6 +9,8 @@ const router = (app) => {
 
   app.post('/signup', controllers.Account.signup);
 
+  app.get('/logout', controllers.Account.logout);
+
   app.get('/app', controllers.App.appPage);
 };
 
