@@ -10,7 +10,25 @@ const PublicTweets = (props) => {
 };
 
 const handleSignup = (e) => {
-    console.log('SIGNING UP');
+    e.preventDefault();
+    helper.hideError();
+
+    const username = e.target.querySelector('#user').value;
+    const pass = e.target.querySelector('#pass').value;
+    const pass2 = e.target.querySelector('#pass2').value;
+    //const _csrf = e.target.querySelector('#_csrf').value;
+
+    if (!username || !pass || !pass2) {
+        helper.handleError('All fields are required!');
+        return false;
+    }
+
+    if (pass !== pass2) {
+        helper.handleError('Passwords do not match!');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {username, pass, pass2, /*_csrf*/});
 
     return false;
 };
@@ -24,11 +42,11 @@ const SignUpWindow = (props) => {
             method="POST"
         >
             <label htmlFor="username">Username: </label>
-            <input type="text" id="user" name="username" placeholder="username" />
+            <input class="mr-3" type="text" id="user" name="username" placeholder="username" />
             <label htmlFor="pass">Password: </label>
-            <input type="password" id="pass" name="pass" placeholder="password" />
+            <input class="mr-3" type="password" id="pass" name="pass" placeholder="password" />
             <label htmlFor="pass2">Password: </label>
-            <input type="password" id="pass2" name="pass2" placeholder="retype password" />
+            <input class="mr-3" type="password" id="pass2" name="pass2" placeholder="retype password" />
             <input className="formSubmit" type="submit" value="Sign In" />
         </form>
     );

@@ -1,5 +1,10 @@
 const handleError = (message) => {
-    console.log(message);
+    document.getElementById('errorMessage').textContent = message;
+    document.getElementById('errorBox').classList.remove('hidden');
+};
+
+const hideError = () => {
+    document.getElementById('errorBox').classList.add('hidden');
 };
 
 const sendPost = async (url, data, handler) => {
@@ -29,4 +34,5 @@ const sendPost = async (url, data, handler) => {
 module.exports = {
     handleError,
     sendPost,
+    hideError,
 }
