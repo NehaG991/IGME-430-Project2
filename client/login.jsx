@@ -16,7 +16,7 @@ const handleSignup = (e) => {
     const username = e.target.querySelector('#user').value;
     const pass = e.target.querySelector('#pass').value;
     const pass2 = e.target.querySelector('#pass2').value;
-    //const _csrf = e.target.querySelector('#_csrf').value;
+    const _csrf = e.target.querySelector('#_csrf').value;
 
     if (!username || !pass || !pass2) {
         helper.handleError('All fields are required!');
@@ -28,7 +28,7 @@ const handleSignup = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {username, pass, pass2, /*_csrf*/});
+    helper.sendPost(e.target.action, {username, pass, pass2, _csrf});
 
     return false;
 };
@@ -47,6 +47,7 @@ const SignUpWindow = (props) => {
             <input type="password" id="pass" name="pass" placeholder="password" />
             <label htmlFor="pass2">Password: </label>
             <input type="password" id="pass2" name="pass2" placeholder="retype password" />
+            <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
             <input className="formSubmit" type="submit" value="Sign In" />
         </form>
     );
@@ -58,14 +59,14 @@ const handleLogin = (e) => {
 
     const username = e.target.querySelector('#user').value;
     const pass = e.target.querySelector('#pass').value;
-    //const _csrf = e.target.querySelector('#_csrf').value;
+    const _csrf = e.target.querySelector('#_csrf').value;
 
     if (!username || !pass) {
         helper.handleError('Username or password is empty!');
         return false;
     }
 
-    helper.sendPost(e.target.action, {username, pass, /*_csrf*/});
+    helper.sendPost(e.target.action, {username, pass, _csrf});
 
     return false;
 };
@@ -89,16 +90,19 @@ const LoginWindow = (props) => {
     );
 };
 
-const init = () => {
+const init = async () => {
     ReactDOM.render(<PublicTweets/>,
     document.getElementById('publicTweets'));
+
+    const response = await fetch('/getToken');
+    const data = await response.json();
 
     const signupButton = document.getElementById('signupButton');
     const loginButton = document.getElementById('loginButton');
 
     signupButton.addEventListener('click', (e) => {
         e.preventDefault();
-        ReactDOM.render(<SignUpWindow/>, 
+        ReactDOM.render(<SignUpWindow csrf={data.csrfToken} />, 
             document.getElementById('loginSignup'));
         
         return false;
@@ -106,7 +110,7 @@ const init = () => {
 
     loginButton.addEventListener('click', (e) => {
         e.preventDefault();
-        ReactDOM.render(<LoginWindow/>, 
+        ReactDOM.render(<LoginWindow csrf={data.csrfToken} />, 
             document.getElementById('loginSignup'));
 
         return false;

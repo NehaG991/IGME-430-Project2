@@ -3,7 +3,7 @@ const models = require('../models');
 const { Account } = models;
 
 // Renders pre login home page
-const loginPage = (req, res) => res.render('login');
+const loginPage = (req, res) => res.render('login', { csrfToken: req.csrfToken() });
 
 const login = (req, res) => {
   const username = `${req.body.username}`;
@@ -57,9 +57,12 @@ const logout = (req, res) => {
   res.redirect('/');
 };
 
+const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
+
 module.exports = {
   loginPage,
   login,
   signup,
   logout,
+  getToken,
 };
