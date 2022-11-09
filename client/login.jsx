@@ -53,7 +53,19 @@ const SignUpWindow = (props) => {
 };
 
 const handleLogin = (e) => {
-    console.log('LOGGING IN');
+    e.preventDefault();
+    helper.hideError();
+
+    const username = e.target.querySelector('#user').value;
+    const pass = e.target.querySelector('#pass').value;
+    //const _csrf = e.target.querySelector('#_csrf').value;
+
+    if (!username || !pass) {
+        helper.handleError('Username or password is empty!');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {username, pass, /*_csrf*/});
 
     return false;
 };
