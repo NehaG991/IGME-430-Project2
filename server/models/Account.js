@@ -32,6 +32,7 @@ const AccountSchema = new mongoose.Schema({
 
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,
+  name: doc.name,
   _id: doc._id,
 });
 

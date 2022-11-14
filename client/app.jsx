@@ -9,6 +9,24 @@ const TWEETS = (props) => {
     );
 };
 
+const handleTweet = (e) => {
+
+    return false;
+};
+
+const TweetForm = (props) => {
+    return (
+        <form 
+        id='tweetForm'
+        onSubmit={handleTweet}
+        name="tweetForm"
+        action="/app"
+        >
+
+        </form>
+    );
+};
+
 const init = () => {
     ReactDOM.render(<TWEETS/>,
     document.getElementById('tweets'));
