@@ -21,13 +21,32 @@ const TweetForm = (props) => {
         onSubmit={handleTweet}
         name="tweetForm"
         action="/app"
+        method='POST'
+        className='tweetForm'
         >
+            <label htmlFor="tweet">Tweet: </label>
+            <input type="test" id='tweet' name='tweet' placeholder='Write Your Tweet Here' />
 
+            <input type="checkbox" id='private' name='private' />
+            <label htmlFor="private">Private? </label>
+
+            <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
+
+            <input type="submit" className='makeTweetSubmit' value="Make Tweet" />
         </form>
     );
 };
 
-const init = () => {
+const init = async () => {
+    const response = await fetch('/getToken');
+    const data = await response.json();
+
+    ReactDOM.render(
+        <TweetForm csrf={data.csrfToken} />,
+        document.getElementById('makeTweet')    
+    );
+
+
     ReactDOM.render(<TWEETS/>,
     document.getElementById('tweets'));
 };
