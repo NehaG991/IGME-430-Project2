@@ -13,6 +13,7 @@ const handleSignup = (e) => {
     e.preventDefault();
     helper.hideError();
 
+    const accountName = e.target.querySelector('#name').value;
     const username = e.target.querySelector('#user').value;
     const pass = e.target.querySelector('#pass').value;
     const pass2 = e.target.querySelector('#pass2').value;
@@ -28,7 +29,7 @@ const handleSignup = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {username, pass, pass2, _csrf});
+    helper.sendPost(e.target.action, {username, pass, pass2, accountName, _csrf});
 
     return false;
 };
@@ -41,6 +42,8 @@ const SignUpWindow = (props) => {
             action="/signup"
             method="POST"
         >
+            <label htmlFor="accountName">Account Name: </label>
+            <input type="text" id="name" name="name" placeholder="Account Name" />
             <label htmlFor="username">Username: </label>
             <input type="text" id="user" name="username" placeholder="username" />
             <label htmlFor="pass">Password: </label>
@@ -48,7 +51,7 @@ const SignUpWindow = (props) => {
             <label htmlFor="pass2">Password: </label>
             <input type="password" id="pass2" name="pass2" placeholder="retype password" />
             <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
-            <input className="formSubmit" type="submit" value="Sign In" />
+            <input className="formSubmit" type="submit" value="Sign Up" />
         </form>
     );
 };

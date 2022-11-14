@@ -1,6 +1,6 @@
 const helper = require('./helper.js');
 
-const TEST = (props) => {
+const TWEETS = (props) => {
     return (
         <div>
             <h3>APP PAGE IS WORKING</h3>
@@ -10,7 +10,7 @@ const TEST = (props) => {
 };
 
 const init = () => {
-    ReactDOM.render(<TEST/>,
+    ReactDOM.render(<TWEETS/>,
     document.getElementById('tweets'));
 };
 
