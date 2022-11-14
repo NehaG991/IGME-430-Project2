@@ -25,10 +25,10 @@ const TweetForm = (props) => {
         className='tweetForm'
         >
             <label htmlFor="tweet">Tweet: </label>
-            <input type="test" id='tweet' name='tweet' placeholder='Write Your Tweet Here' />
+            <input type="text" id='tweet' name='tweet' placeholder='Write Your Tweet Here' />
 
-            <input type="checkbox" id='private' name='private' />
             <label htmlFor="private">Private? </label>
+            <input type="checkbox" id='private' name='private' />
 
             <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
 

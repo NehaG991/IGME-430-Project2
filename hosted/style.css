@@ -2,3 +2,17 @@
     margin-right: 2%;
     margin-top: 1%;
 }
+
+#tweetForm {
+    background-color: #1da1f2;
+    padding: 25px 0px;
+    color: white;
+}
+
+#tweetForm input{ 
+    margin-right: 2%;
+}
+
+#tweet{
+    width: 300px;
+}
