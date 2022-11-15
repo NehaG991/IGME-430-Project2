@@ -1,19 +1,9 @@
 const helper = require('./helper.js');
 
-const PublicTweets = (props) => {
-    return (
-        <div>
-            <h3>IT'S WORKING</h3>
-            <h3>WOAH</h3>
-        </div>
-    );
-};
-
 const handleSignup = (e) => {
     e.preventDefault();
     helper.hideError();
 
-    const accountName = e.target.querySelector('#name').value;
     const username = e.target.querySelector('#user').value;
     const pass = e.target.querySelector('#pass').value;
     const pass2 = e.target.querySelector('#pass2').value;
@@ -29,7 +19,7 @@ const handleSignup = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {username, pass, pass2, accountName, _csrf});
+    helper.sendPost(e.target.action, {username, pass, pass2, _csrf});
 
     return false;
 };
@@ -42,8 +32,6 @@ const SignUpWindow = (props) => {
             action="/signup"
             method="POST"
         >
-            <label htmlFor="accountName">Account Name: </label>
-            <input type="text" id="name" name="name" placeholder="Account Name" />
             <label htmlFor="username">Username: </label>
             <input type="text" id="user" name="username" placeholder="username" />
             <label htmlFor="pass">Password: </label>
@@ -93,10 +81,41 @@ const LoginWindow = (props) => {
     );
 };
 
-const init = async () => {
-    ReactDOM.render(<PublicTweets/>,
-    document.getElementById('publicTweets'));
+const TweetList = (props) => {
+    if (props.tweets.length === 0) {
+        return (
+            <div>
+                <h3>No Tweets Yet!</h3>
+            </div>     
+        );
+    }
 
+    const tweetNodes = props.tweets.map(tweet => {
+        return (
+            <div key={tweet._id}>
+                <h3>{tweet.tweet}</h3>
+            </div>
+        );
+    });
+
+    return (
+        <div>
+            {tweetNodes}
+        </div>
+    );
+};
+
+const loadTweetsFromServer = async () => {
+    const response = await fetch('/getPublicTweets');
+    const data = await response.json();
+
+    ReactDOM.render(
+        <TweetList tweets={data.tweets} />,
+        document.getElementById('publicTweets')
+    );
+};
+
+const init = async () => {
     const response = await fetch('/getToken');
     const data = await response.json();
 
@@ -118,6 +137,8 @@ const init = async () => {
 
         return false;
     });
+
+    loadTweetsFromServer();
 };
 
 window.onload = init;

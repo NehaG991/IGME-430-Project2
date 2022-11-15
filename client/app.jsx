@@ -1,15 +1,19 @@
 const helper = require('./helper.js');
 
-const TWEETS = (props) => {
-    return (
-        <div>
-            <h3>APP PAGE IS WORKING</h3>
-            <h3>WOAH</h3>
-        </div>
-    );
-};
-
 const handleTweet = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const tweet = e.target.querySelector('#tweet').value;
+    const privacy = e.target.querySelector('#private').checked;
+    const _csrf = e.target.querySelector('#_csrf').value;
+
+    if (!tweet) {
+        helper.handleError('You must write something');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {tweet, privacy, _csrf}, loadTweetsFromServer);
 
     return false;
 };
@@ -37,6 +41,40 @@ const TweetForm = (props) => {
     );
 };
 
+const TweetList = (props) => {
+    if (props.tweets.length === 0) {
+        return (
+            <div>
+                <h3>No Tweets Yet!</h3>
+            </div>     
+        );
+    }
+
+    const tweetNodes = props.tweets.map(tweet => {
+        return (
+            <div key={tweet._id}>
+                <h3>{tweet.tweet}</h3>
+            </div>
+        );
+    });
+
+    return (
+        <div>
+            {tweetNodes}
+        </div>
+    );
+};
+
+const loadTweetsFromServer = async () => {
+    const response = await fetch('/getLogInTweets');
+    const data = await response.json();
+
+    ReactDOM.render(
+        <TweetList tweets={data.tweets} />,
+        document.getElementById('tweets')
+    );
+};
+
 const init = async () => {
     const response = await fetch('/getToken');
     const data = await response.json();
@@ -46,9 +84,7 @@ const init = async () => {
         document.getElementById('makeTweet')    
     );
 
-
-    ReactDOM.render(<TWEETS/>,
-    document.getElementById('tweets'));
+    loadTweetsFromServer();
 };
 
 window.onload = init;
