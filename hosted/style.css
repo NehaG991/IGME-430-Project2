@@ -16,3 +16,36 @@
 #tweet{
     width: 300px;
 }
+
+#noTweet{
+    width: 400px;
+    font-size: 1.5em;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 18px;
+}
+
+#tweetBox{
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #949494;
+    border-radius: 4px;
+    background-color: white;
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
+}
+
+#tweetUsername{
+    float:left; 
+    display:inline; 
+    width: 49%;
+}
+
+#actualTweet{
+    float:left; 
+    display:inline; 
+    width: 49%;
+}

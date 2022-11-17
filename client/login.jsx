@@ -85,16 +85,17 @@ const TweetList = (props) => {
     if (props.tweets.length === 0) {
         return (
             <div>
-                <h3>No Tweets Yet!</h3>
+                <h3 id='noTweet' >No Tweets Yet!</h3>
             </div>     
         );
     }
 
     const tweetNodes = props.tweets.map(tweet => {
         return (
-            <div key={tweet._id}>
-                <h3>{tweet.username}</h3>
-                <h3>{tweet.tweet}</h3>
+            <div key={tweet._id} id='tweetBox' >
+                <h3 id='tweetUsername' >{tweet.username}</h3>
+                <h3 id='date' >{tweet.createdDate}</h3>
+                <h3 id='actualTweet' >{tweet.tweet}</h3>
             </div>
         );
     });

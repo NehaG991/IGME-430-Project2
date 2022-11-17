@@ -48,7 +48,7 @@ TweetSchema.statics.findByOwner = (ownerId, callback) => {
   return TweetModel.find(search).select('tweet username').lean().exec(callback);
 };
 
-TweetSchema.statics.findTweet = (filter, callback) => TweetModel.find(filter).select('tweet private username').lean().exec(callback);
+TweetSchema.statics.findTweet = (filter, callback) => TweetModel.find(filter).select('tweet private username createdDate').lean().exec(callback);
 
 TweetModel = mongoose.model('Tweet', TweetSchema);
 
