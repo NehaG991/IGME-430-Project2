@@ -4,6 +4,8 @@ const { Tweet } = models;
 
 const appPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
 
+const errorPage = (req, res) => res.render('404', { csrfToken: req.csrfToken() });
+
 const makeTweet = async (req, res) => {
   if (!req.body.tweet) {
     return res.status(400).json({ error: 'You must type something' });
@@ -59,6 +61,7 @@ const getPublicTweets = (req, res) => {
 
 module.exports = {
   appPage,
+  errorPage,
   makeTweet,
   getLogInTweets,
   getPublicTweets,
