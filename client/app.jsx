@@ -74,6 +74,42 @@ const TweetList = (props) => {
     );
 };
 
+const changePassword = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const newPass = e.target.querySelector('#pass').value;
+    const newPass2 = e.target.querySelector('#pass2').value;
+    const _csrf = e.target.querySelector('#_csrf').value;
+
+    if (!newPass || !newPass2) {
+        helper.handleError('All fields are required');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {newPass, newPass2, _csrf});
+
+    return false;
+};
+
+const ChangePasswordWindow = (props) => {
+    return (
+        <form id='changePasswordForm'
+        name='changePasswordForm'
+        onSubmit={changePassword}
+        action="/changePassword"
+        method='POST'
+        >
+            <label htmlFor="pass">New Password: </label>
+            <input type="password" id="pass" name="pass" placeholder="new password" />
+            <label htmlFor="pass2">Confirm New Password: </label>
+            <input type="password" id="pass2" name="pass2" placeholder="retype new password" />
+            <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
+            <input className="formSubmit" type="submit" value="Change Password" />
+        </form>      
+    );
+};
+
 const loadTweetsFromServer = async () => {
     const response = await fetch('/getLogInTweets');
     const data = await response.json();
@@ -92,6 +128,14 @@ const init = async () => {
         <TweetForm csrf={data.csrfToken} />,
         document.getElementById('makeTweet')    
     );
+
+    const changePasswordButton = document.getElementById('changePassword');
+
+    changePasswordButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        ReactDOM.render(<ChangePasswordWindow csrf={data.csrfToken} />, 
+            document.getElementById("changePasswordSection"))
+    });
 
     loadTweetsFromServer();
 };

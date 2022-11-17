@@ -18,6 +18,8 @@ const router = (app) => {
 
   app.get('/app', mid.requiresLogin, controllers.App.appPage);
   app.post('/app', mid.requiresLogin, controllers.App.makeTweet);
+
+  app.post('/changePassword', mid.requiresLogin, controllers.Account.changePassword);
 };
 
 module.exports = router;

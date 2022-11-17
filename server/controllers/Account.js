@@ -5,6 +5,7 @@ const { Account } = models;
 // Renders pre login home page
 const loginPage = (req, res) => res.render('login', { csrfToken: req.csrfToken() });
 
+// Handles login
 const login = (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -24,6 +25,7 @@ const login = (req, res) => {
   });
 };
 
+// Handles signin
 const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -39,7 +41,7 @@ const signup = async (req, res) => {
 
   try {
     const hash = await Account.generateHash(pass);
-    const newAccount = new Account({ username, password: hash });
+    const newAccount = new Account({ username, unhashedPassword: pass, password: hash });
     await newAccount.save();
     req.session.account = Account.toAPI(newAccount);
     return res.json({ redirect: '/app' });
@@ -52,13 +54,16 @@ const signup = async (req, res) => {
   }
 };
 
+// Handles logout
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
 
+// Gets csrf token
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
+// Gets username of currently logged in user
 const getUsername = (req, res) => {
   Account.getUsername(req.session.account._id, (err, doc) => {
     if (err) {
@@ -70,6 +75,32 @@ const getUsername = (req, res) => {
   });
 };
 
+// Handles password change
+const changePassword = async (req, res) => {
+  const newPass = `${req.body.newPass}`;
+  const newPass2 = `${req.body.newPass2}`;
+
+  if (!newPass || !newPass2) {
+    return res.status(400).json({ error: 'All fields are required!' });
+  }
+
+  if (newPass !== newPass2) {
+    return res.status(400).json({ error: 'New passwords do not match!' });
+  }
+
+  const oldPassword = await Account.getCurrentPassword(req.session.account._id);
+  console.log(oldPassword);
+  const newPassHash = await Account.generateHash(newPass);
+
+  if (oldPassword === newPass) {
+    return res.status(400).json({ error: 'Old Password and New Password match' });
+  }
+
+  await Account.changePassword(req.session.account._id, newPass, newPassHash);
+
+  return res.status(200).json({ error: 'Password successfully updated' });
+};
+
 module.exports = {
   loginPage,
   login,
@@ -77,4 +108,5 @@ module.exports = {
   logout,
   getToken,
   getUsername,
+  changePassword,
 };
