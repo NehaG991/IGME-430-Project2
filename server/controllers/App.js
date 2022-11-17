@@ -12,6 +12,7 @@ const makeTweet = async (req, res) => {
   const tweetData = {
     tweet: req.body.tweet,
     private: req.body.privacy,
+    username: req.body.username,
     owner: req.session.account._id,
   };
 
@@ -21,6 +22,7 @@ const makeTweet = async (req, res) => {
     return res.status(201).json({
       tweet: newTweet.tweet,
       private: newTweet.private,
+      username: newTweet.username,
     });
   } catch (err) {
     console.log(err);

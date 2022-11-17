@@ -18,6 +18,12 @@ const TweetSchema = new mongoose.Schema({
     required: true,
     default: true,
   },
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    match: /^[A-Za-z0-9_\-.]{1,16}$/,
+  },
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -39,10 +45,10 @@ TweetSchema.statics.findByOwner = (ownerId, callback) => {
     owner: mongoose.Types.ObjectId(ownerId),
   };
 
-  return TweetModel.find(search).select('tweet').lean().exec(callback);
+  return TweetModel.find(search).select('tweet username').lean().exec(callback);
 };
 
-TweetSchema.statics.findTweet = (filter, callback) => TweetModel.find(filter).select('tweet private').lean().exec(callback);
+TweetSchema.statics.findTweet = (filter, callback) => TweetModel.find(filter).select('tweet private username').lean().exec(callback);
 
 TweetModel = mongoose.model('Tweet', TweetSchema);
 

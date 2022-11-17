@@ -5,6 +5,7 @@ const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
   app.get('/getLogInTweets', mid.requiresLogin, controllers.App.getLogInTweets);
   app.get('/getPublicTweets', mid.requiresLogout, controllers.App.getPublicTweets);
+  app.get('/getUsername', mid.requiresLogin, controllers.Account.getUsername);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 

@@ -93,6 +93,7 @@ const TweetList = (props) => {
     const tweetNodes = props.tweets.map(tweet => {
         return (
             <div key={tweet._id}>
+                <h3>{tweet.username}</h3>
                 <h3>{tweet.tweet}</h3>
             </div>
         );

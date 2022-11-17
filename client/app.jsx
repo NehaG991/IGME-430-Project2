@@ -1,8 +1,11 @@
 const helper = require('./helper.js');
 
-const handleTweet = (e) => {
+const handleTweet = async (e) => {
     e.preventDefault();
     helper.hideError();
+
+    const response = await fetch('/getUsername');
+    const data = await response.json();
 
     const tweet = e.target.querySelector('#tweet').value;
     const privacy = e.target.querySelector('#private').checked;
@@ -13,7 +16,11 @@ const handleTweet = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {tweet, privacy, _csrf}, loadTweetsFromServer);
+    //console.log(data.username.username);
+
+    const username = data.username.username;
+
+    helper.sendPost(e.target.action, {tweet, privacy, username, _csrf}, loadTweetsFromServer);
 
     return false;
 };
@@ -53,6 +60,7 @@ const TweetList = (props) => {
     const tweetNodes = props.tweets.map(tweet => {
         return (
             <div key={tweet._id}>
+                <h3>{tweet.username}</h3>
                 <h3>{tweet.tweet}</h3>
             </div>
         );

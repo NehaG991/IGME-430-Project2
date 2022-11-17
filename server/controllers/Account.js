@@ -59,10 +59,22 @@ const logout = (req, res) => {
 
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
+const getUsername = (req, res) => {
+  Account.getUsername(req.session.account._id, (err, doc) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'Issue with GetUsername' });
+    }
+
+    return res.json({ username: doc });
+  });
+};
+
 module.exports = {
   loginPage,
   login,
   signup,
   logout,
   getToken,
+  getUsername,
 };
