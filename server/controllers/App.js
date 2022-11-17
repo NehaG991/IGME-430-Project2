@@ -4,7 +4,7 @@ const { Tweet } = models;
 
 const appPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
 
-const errorPage = (req, res) => res.render('404', { csrfToken: req.csrfToken() });
+const errorPage = (req, res) => res.status(404).render('404', { csrfToken: req.csrfToken() });
 
 const makeTweet = async (req, res) => {
   if (!req.body.tweet) {
