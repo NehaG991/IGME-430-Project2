@@ -90,7 +90,7 @@ const TweetList = (props) => {
         );
     }
 
-    const tweetNodes = props.tweets.map(tweet => {
+    const tweetNodes = props.tweets.slice(0).reverse().map(tweet => {
         return (
             <div key={tweet._id} id='tweetBox' >
                 <h3 id='tweetUsername' >{tweet.username}</h3>

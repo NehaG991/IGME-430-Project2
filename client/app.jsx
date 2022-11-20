@@ -68,7 +68,7 @@ const TweetList = (props) => {
         );
     }
 
-    const tweetNodes = props.tweets.map(tweet => {
+    const tweetNodes = props.tweets.slice(0).reverse().map(tweet => {
         let canDelete = false;
         
         // Checks if user can do delete tweet
