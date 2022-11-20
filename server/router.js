@@ -21,6 +21,8 @@ const router = (app) => {
 
   app.post('/changePassword', mid.requiresLogin, controllers.Account.changePassword);
 
+  app.post('/delete', mid.requiresLogin, controllers.App.deleteTweet);
+
   app.get('*', controllers.App.errorPage);
 };
 

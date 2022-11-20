@@ -49,6 +49,16 @@ const TweetForm = (props) => {
     );
 };
 
+const deleteTweet = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const _csrf = document.querySelector('#_csrf').value;
+    const _id = e.target.querySelector('#_id').value;
+
+    helper.sendPost(e.target.action, {_id, _csrf}, loadTweetsFromServer);
+}
+
 const TweetList = (props) => {
     if (props.tweets.length === 0) {
         return (
@@ -72,7 +82,15 @@ const TweetList = (props) => {
                     <h3 id='tweetUsername' >{tweet.username}</h3>
                     <h3 id='date' >{tweet.createdDate}</h3>
                     <h3 id='actualTweet' >{tweet.tweet}</h3>
-                    <button type='button'>DELETE</button>
+                    <form 
+                    action="/delete"
+                    name="deleteButton"
+                    method='POST'
+                    onSubmit={deleteTweet}
+                >
+                        <input type="submit" value="Delete" />
+                        <input type="hidden" id="_id" name='_id' value={tweet._id} />
+                    </form>
                 </div>
             );
         }

@@ -59,10 +59,22 @@ const getPublicTweets = (req, res) => {
   });
 };
 
+const deleteTweet = async (req, res) => {
+  try {
+    await Tweet.deleteOne({ _id: req.body._id });
+    console.log('TWEET DELETED');
+    return res.status(200).json({ _id: req.body._id });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: 'An error has occured!' });
+  }
+};
+
 module.exports = {
   appPage,
   errorPage,
   makeTweet,
   getLogInTweets,
   getPublicTweets,
+  deleteTweet,
 };
