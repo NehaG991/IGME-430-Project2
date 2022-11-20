@@ -42,6 +42,7 @@ const TweetForm = (props) => {
             <input type="checkbox" id='private' name='private' />
 
             <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
+            <input type="hidden" id="_username" name="_username" value="" />
 
             <input type="submit" className='makeTweetSubmit' value="Make Tweet" />
         </form>
@@ -58,6 +59,24 @@ const TweetList = (props) => {
     }
 
     const tweetNodes = props.tweets.map(tweet => {
+        let canDelete = false;
+        
+        // Checks if user can do delete tweet
+        if (tweet.username === document.getElementById('_username').value) {
+            canDelete = true;
+        };
+
+        if (canDelete){
+            return (
+                <div key={tweet._id} id='tweetBox' >
+                    <h3 id='tweetUsername' >{tweet.username}</h3>
+                    <h3 id='date' >{tweet.createdDate}</h3>
+                    <h3 id='actualTweet' >{tweet.tweet}</h3>
+                    <button type='button'>DELETE</button>
+                </div>
+            );
+        }
+
         return (
             <div key={tweet._id} id='tweetBox' >
                 <h3 id='tweetUsername' >{tweet.username}</h3>
@@ -113,6 +132,12 @@ const ChangePasswordWindow = (props) => {
 const loadTweetsFromServer = async () => {
     const response = await fetch('/getLogInTweets');
     const data = await response.json();
+
+    const usernameResponse = await fetch('/getUsername');
+    const usernameData = await usernameResponse.json();
+
+    const username = usernameData.username.username;
+    document.getElementById('_username').value = username;
 
     ReactDOM.render(
         <TweetList tweets={data.tweets} />,
