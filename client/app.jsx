@@ -65,7 +65,7 @@ const togglePrivacy = (e) => {
 
     const _csrf = document.querySelector('#_csrf').value;
     const _id = e.target.querySelector('#_id').value;
-    helper.sendPost(e.target.action, {_id, currentPrivacy, _csrf}, loadTweetsFromServer);
+    helper.sendPost(e.target.action, {_id, _csrf}, loadTweetsFromServer);
 };
 
 const TweetList = (props) => {
