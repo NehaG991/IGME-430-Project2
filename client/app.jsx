@@ -65,7 +65,6 @@ const togglePrivacy = (e) => {
 
     const _csrf = document.querySelector('#_csrf').value;
     const _id = e.target.querySelector('#_id').value;
-    const currentPrivacy = e.target.querySelector('#currentPrivacy').value;
     helper.sendPost(e.target.action, {_id, currentPrivacy, _csrf}, loadTweetsFromServer);
 };
 
@@ -108,7 +107,6 @@ const TweetList = (props) => {
                     >
                         <input type="submit" value="Toggle Privacy?" />
                         <input type="hidden" id="_id" name='_id' value={tweet._id} />
-                        <input type="hidden" id="currentPrivacy" name='currentPrivacy' value={tweet.private} />
                     </form>
 
                     <form 

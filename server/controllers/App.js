@@ -71,12 +71,12 @@ const deleteTweet = async (req, res) => {
 };
 
 const togglePrivacy = async (req, res) => {
-  try{
-    const filter = {_id: req.body._id};
-    await Tweet.togglePrivacy(filter, req.body.currentPrivacy);
+  try {
+    const filter = { _id: req.body._id };
+    await Tweet.togglePrivacy(filter);
     console.log('TWEET PRIVACY UPDATED');
     return res.status(200).json({ _id: req.body._id });
-  } catch (err){
+  } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error has occured!' });
   }

@@ -50,11 +50,8 @@ TweetSchema.statics.findByOwner = (ownerId, callback) => {
 
 TweetSchema.statics.findTweet = (filter, callback) => TweetModel.find(filter).select('tweet private username createdDate').lean().exec(callback);
 
-TweetSchema.statics.togglePrivacy = async (filter, currentPrivacy) => {
-  let updatedPrivacy = !currentPrivacy;
-  const update = {private: updatedPrivacy};
-
-  const doc = await TweetModel.findOneAndUpdate(filter, update);
+TweetSchema.statics.togglePrivacy = async (filter) => {
+  const doc = await TweetModel.updateOne(filter, [{ $set: { private: { $eq: [false, '$private'] } } }]);
 
   return doc;
 };
