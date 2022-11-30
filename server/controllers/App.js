@@ -70,6 +70,18 @@ const deleteTweet = async (req, res) => {
   }
 };
 
+const togglePrivacy = async (req, res) => {
+  try{
+    const filter = {_id: req.body._id};
+    await Tweet.togglePrivacy(filter, req.body.currentPrivacy);
+    console.log('TWEET PRIVACY UPDATED');
+    return res.status(200).json({ _id: req.body._id });
+  } catch (err){
+    console.log(err);
+    return res.status(400).json({ error: 'An error has occured!' });
+  }
+};
+
 module.exports = {
   appPage,
   errorPage,
@@ -77,4 +89,5 @@ module.exports = {
   getLogInTweets,
   getPublicTweets,
   deleteTweet,
+  togglePrivacy,
 };

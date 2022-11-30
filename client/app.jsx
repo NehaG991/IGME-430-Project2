@@ -57,7 +57,17 @@ const deleteTweet = (e) => {
     const _id = e.target.querySelector('#_id').value;
 
     helper.sendPost(e.target.action, {_id, _csrf}, loadTweetsFromServer);
-}
+};
+
+const togglePrivacy = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const _csrf = document.querySelector('#_csrf').value;
+    const _id = e.target.querySelector('#_id').value;
+    const currentPrivacy = e.target.querySelector('#currentPrivacy').value;
+    helper.sendPost(e.target.action, {_id, currentPrivacy, _csrf}, loadTweetsFromServer);
+};
 
 const TweetList = (props) => {
     if (props.tweets.length === 0) {
@@ -69,25 +79,44 @@ const TweetList = (props) => {
     }
 
     const tweetNodes = props.tweets.slice(0).reverse().map(tweet => {
-        let canDelete = false;
+        let canChange = false;
+        let tweetPrivacy = 'Public';
         
-        // Checks if user can do delete tweet
+        // Checks if user can change tweets
         if (tweet.username === document.getElementById('_username').value) {
-            canDelete = true;
+            canChange = true;
+
+            // Determines if user owned tweets are public or private
+            if (tweet.private === true){
+                tweetPrivacy = 'Private';
+            }
         };
 
-        if (canDelete){
+        if (canChange){
             return (
                 <div key={tweet._id} id='tweetBox' >
                     <h3 id='tweetUsername' >{tweet.username}</h3>
                     <h3 id='date' >{tweet.createdDate}</h3>
                     <h3 id='actualTweet' >{tweet.tweet}</h3>
+                    <h3 id="tweetPrivacy">{tweetPrivacy}</h3>
+                    
                     <form 
-                    action="/delete"
-                    name="deleteButton"
-                    method='POST'
-                    onSubmit={deleteTweet}
-                >
+                        action="/togglePrivacy"
+                        name='togglePrivacy'
+                        method='POST'
+                        onSubmit={togglePrivacy}
+                    >
+                        <input type="submit" value="Toggle Privacy?" />
+                        <input type="hidden" id="_id" name='_id' value={tweet._id} />
+                        <input type="hidden" id="currentPrivacy" name='currentPrivacy' value={tweet.private} />
+                    </form>
+
+                    <form 
+                        action="/delete"
+                        name="deleteButton"
+                        method='POST'
+                        onSubmit={deleteTweet}
+                    >
                         <input type="submit" value="Delete" />
                         <input type="hidden" id="_id" name='_id' value={tweet._id} />
                     </form>
