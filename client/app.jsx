@@ -77,8 +77,6 @@ const handleEditTweet = (e) => {
     const newTweet = e.target.querySelector('#tweet').value;
 
     helper.sendPost(e.target.action, {_id, newTweet, _csrf}, loadTweetsFromServer);
-
-    document.querySelector('#editTweetSection').innerHTML = '';
 };
 
 const EditTweetWindow = (props) => {
@@ -102,7 +100,7 @@ const renderEditTweetWindow = (e) => {
 
     const _id = e.target.querySelector('#_id').value;
     ReactDOM.render(<EditTweetWindow _id={_id} />,
-        document.getElementById('editTweetSection'));
+        e.target.querySelector('#editTweetSection'));
 };
 
 
@@ -154,8 +152,9 @@ const TweetList = (props) => {
                     >
                         <input type="submit" value="Edit Tweet?" />
                         <input type="hidden" id="_id" name='_id' value={tweet._id} />
+                        <section id='editTweetSection' ></section>
                     </form>
-                    <section id='editTweetSection' ></section>
+
 
                     <form 
                         action="/delete"
