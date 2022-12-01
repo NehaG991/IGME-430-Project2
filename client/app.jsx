@@ -68,6 +68,36 @@ const togglePrivacy = (e) => {
     helper.sendPost(e.target.action, {_id, _csrf}, loadTweetsFromServer);
 };
 
+const handleEditTweet = (e) => {
+
+};
+
+const EditTweetWindow = (props) => {
+    return (
+        <form 
+            action="/editTweet"
+            name='editTweet'
+            method='POST'
+            onSubmit={handleEditTweet}
+        >
+            <input type="hidden" id="_id" name='_id' value={props._id} />
+            <input type="text" id='tweet' name='tweet' placeholder='Write Your Tweet Here' maxLength="280" />
+            <input type="submit" className='makeTweetSubmit' value="Update Tweet" />
+        </form>
+    );
+};
+
+const renderEditTweetWindow = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const _id = e.target.querySelector('#_id').value;
+    ReactDOM.render(<EditTweetWindow _id={_id} />,
+        document.getElementById('editTweetSection'));
+};
+
+
+
 const TweetList = (props) => {
     if (props.tweets.length === 0) {
         return (
@@ -108,6 +138,18 @@ const TweetList = (props) => {
                         <input type="submit" value="Toggle Privacy?" />
                         <input type="hidden" id="_id" name='_id' value={tweet._id} />
                     </form>
+
+                    {/* <button onClick={renderEditTweetWindow}>
+                        Edit Tweet?
+                    </button> */}
+                    <form 
+                        id='editTweetButton'
+                        onSubmit={renderEditTweetWindow}
+                    >
+                        <input type="submit" value="Edit Tweet?" />
+                        <input type="hidden" id="_id" name='_id' value={tweet._id} />
+                    </form>
+                    <section id='editTweetSection' ></section>
 
                     <form 
                         action="/delete"
