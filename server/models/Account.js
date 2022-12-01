@@ -67,5 +67,14 @@ AccountSchema.statics.changePassword = async (objectId, unhashed, hashed) => {
   return doc;
 };
 
+AccountSchema.statics.changeUsername = async (_id, newUsername) => {
+  const filter = { _id: _id};
+  const update = { username: newUsername};
+
+  const doc = await AccountModel.findOneAndUpdate(filter, update);
+
+  return doc;
+};
+
 AccountModel = mongoose.model('Account', AccountSchema);
 module.exports = AccountModel;

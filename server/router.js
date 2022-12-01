@@ -21,6 +21,8 @@ const router = (app) => {
 
   app.post('/changePassword', mid.requiresLogin, controllers.Account.changePassword);
 
+  app.post('/changeUsername', mid.requiresLogin, controllers.Account.changeUsername);
+
   app.post('/togglePrivacy', mid.requiresLogin, controllers.App.togglePrivacy);
 
   app.post('/editTweet', mid.requiresLogin, controllers.App.editTweet);

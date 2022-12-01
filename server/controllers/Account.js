@@ -1,6 +1,7 @@
 const models = require('../models');
 
 const { Account } = models;
+const { Tweet } = models;
 
 // Renders pre login home page
 const loginPage = (req, res) => res.render('login', { csrfToken: req.csrfToken() });
@@ -101,6 +102,27 @@ const changePassword = async (req, res) => {
   return res.status(200).json({ error: 'Password successfully updated' });
 };
 
+const changeUsername = async (req, res) => {
+  const newUsername = `${req.body.newUsername}`;
+  const oldUsername = `${req.body.oldUsername}`;
+
+  if (!newUsername) {
+    return res.status(400).json({ error: 'All fields are required!' });
+  }
+
+  try{
+    await Account.changeUsername(req.session.account._id, newUsername);
+    console.log('USERNAME UPDATED');
+    await Tweet.updateUsername(oldUsername, newUsername);
+    console.log('TWEET USERNAME UPDATED');
+    return res.status(200).json({ error: 'Username successfully updated' });
+  } catch (err){
+    console.log(err);
+    return res.status(400).json({ error: 'An error has occured!' });
+  }
+
+};
+
 module.exports = {
   loginPage,
   login,
@@ -109,4 +131,5 @@ module.exports = {
   getToken,
   getUsername,
   changePassword,
+  changeUsername,
 };

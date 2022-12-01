@@ -221,6 +221,35 @@ const ChangePasswordWindow = (props) => {
     );
 };
 
+const changeUsername = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const oldUsername = document.getElementById('_username').value;
+    const newUsername = e.target.querySelector('#user').value;
+    const _csrf = e.target.querySelector('#_csrf').value;
+
+    helper.sendPost(e.target.action, {oldUsername, newUsername, _csrf}, loadTweetsFromServer);
+
+    return false;
+};
+
+const ChangeUsernameWindow = (props) => {
+    return (
+        <form id='changeUsernameForm'
+        name='changeUsernameForm'
+        onSubmit={changeUsername}
+        action="/changeUsername"
+        method='POST'
+        >
+            <label htmlFor="username">New Username: </label>
+            <input type="text" id="user" name="username" placeholder="username" />
+            <input type="hidden" id="_csrf" name="_csrf" value={props.csrf} />
+            <input className="formSubmit" type="submit" value="Change Username" />
+        </form>      
+    );
+};
+
 const loadTweetsFromServer = async () => {
     const response = await fetch('/getLogInTweets');
     const data = await response.json();
@@ -252,6 +281,14 @@ const init = async () => {
         e.preventDefault();
         ReactDOM.render(<ChangePasswordWindow csrf={data.csrfToken} />, 
             document.getElementById("changePasswordSection"))
+    });
+
+    const changeUsernameButton = document.getElementById('changeUsername');
+
+    changeUsernameButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        ReactDOM.render(<ChangeUsernameWindow csrf={data.csrfToken} />, 
+            document.getElementById("changeUsernameSection"))
     });
 
     loadTweetsFromServer();

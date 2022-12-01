@@ -83,7 +83,7 @@ const togglePrivacy = async (req, res) => {
 };
 
 const editTweet = async (req, res) => {
-  try{
+  try {
     const filter = { _id: req.body._id };
     await Tweet.editTweet(filter, req.body.newTweet);
     console.log('TWEET UPDATED');
@@ -91,7 +91,7 @@ const editTweet = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error has occured!' });
-  };
+  }
 };
 
 module.exports = {
