@@ -23,6 +23,8 @@ const router = (app) => {
 
   app.post('/togglePrivacy', mid.requiresLogin, controllers.App.togglePrivacy);
 
+  app.post('/editTweet', mid.requiresLogin, controllers.App.editTweet);
+
   app.post('/delete', mid.requiresLogin, controllers.App.deleteTweet);
 
   app.get('*', controllers.App.errorPage);

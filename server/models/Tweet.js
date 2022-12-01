@@ -56,6 +56,13 @@ TweetSchema.statics.togglePrivacy = async (filter) => {
   return doc;
 };
 
+TweetSchema.statics.editTweet = async (filter, newTweet) => {
+  const update = {tweet: newTweet};
+  const doc = await TweetModel.updateOne(filter, update);
+
+  return doc;
+}
+
 TweetModel = mongoose.model('Tweet', TweetSchema);
 
 module.exports = TweetModel;

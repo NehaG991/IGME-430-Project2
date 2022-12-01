@@ -69,7 +69,16 @@ const togglePrivacy = (e) => {
 };
 
 const handleEditTweet = (e) => {
+    e.preventDefault();
+    helper.hideError();
 
+    const _csrf = document.querySelector('#_csrf').value;
+    const _id = e.target.querySelector('#_id').value;
+    const newTweet = e.target.querySelector('#tweet').value;
+
+    helper.sendPost(e.target.action, {_id, newTweet, _csrf}, loadTweetsFromServer);
+
+    document.querySelector('#editTweetSection').innerHTML = '';
 };
 
 const EditTweetWindow = (props) => {
@@ -139,9 +148,6 @@ const TweetList = (props) => {
                         <input type="hidden" id="_id" name='_id' value={tweet._id} />
                     </form>
 
-                    {/* <button onClick={renderEditTweetWindow}>
-                        Edit Tweet?
-                    </button> */}
                     <form 
                         id='editTweetButton'
                         onSubmit={renderEditTweetWindow}
