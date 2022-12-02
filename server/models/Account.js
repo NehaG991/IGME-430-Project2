@@ -68,8 +68,8 @@ AccountSchema.statics.changePassword = async (objectId, unhashed, hashed) => {
 };
 
 AccountSchema.statics.changeUsername = async (_id, newUsername) => {
-  const filter = { _id: _id};
-  const update = { username: newUsername};
+  const filter = { _id };
+  const update = { username: newUsername };
 
   const doc = await AccountModel.findOneAndUpdate(filter, update);
 

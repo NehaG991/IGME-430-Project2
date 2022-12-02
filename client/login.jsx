@@ -91,10 +91,19 @@ const TweetList = (props) => {
     }
 
     const tweetNodes = props.tweets.slice(0).reverse().map(tweet => {
+        // formatting date
+        let stringDate = tweet.createdDate.toString();
+        let date = stringDate.substring(0, 10);
+        let time = stringDate.substring(11, 16)
+        let finalDate = date + ", " + time;
+
         return (
             <div key={tweet._id} id='tweetBox' >
-                <h3 id='tweetUsername' >{tweet.username}</h3>
-                <h3 id='date' >{tweet.createdDate}</h3>
+                <div id='username'>
+                    <label htmlFor="tweetUsername">Created By: </label>
+                    <h3 id='tweetUsername' >{tweet.username}</h3>
+                </div>
+                <h3 id='date' >{finalDate}</h3>
                 <h3 id='actualTweet' >{tweet.tweet}</h3>
             </div>
         );

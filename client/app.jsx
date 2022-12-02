@@ -82,6 +82,7 @@ const handleEditTweet = (e) => {
 const EditTweetWindow = (props) => {
     return (
         <form 
+            id='editTweetForm'
             action="/editTweet"
             name='editTweet'
             method='POST'
@@ -128,23 +129,22 @@ const TweetList = (props) => {
             }
         };
 
+        // formatting date
+        let stringDate = tweet.createdDate.toString();
+        let date = stringDate.substring(0, 10);
+        let time = stringDate.substring(11, 16)
+        let finalDate = date + ", " + time;
+
         if (canChange){
             return (
                 <div key={tweet._id} id='tweetBox' >
-                    <h3 id='tweetUsername' >{tweet.username}</h3>
-                    <h3 id='date' >{tweet.createdDate}</h3>
+                    <div id='username'>
+                        <label htmlFor="tweetUsername">Created By: </label>
+                        <h3 id='tweetUsername' >{tweet.username}</h3>
+                    </div>
+                    <h3 id='date' >{finalDate}</h3>
                     <h3 id='actualTweet' >{tweet.tweet}</h3>
                     <h3 id="tweetPrivacy">{tweetPrivacy}</h3>
-                    
-                    <form 
-                        action="/togglePrivacy"
-                        name='togglePrivacy'
-                        method='POST'
-                        onSubmit={togglePrivacy}
-                    >
-                        <input type="submit" value="Toggle Privacy?" />
-                        <input type="hidden" id="_id" name='_id' value={tweet._id} />
-                    </form>
 
                     <form 
                         id='editTweetButton'
@@ -157,12 +157,24 @@ const TweetList = (props) => {
 
 
                     <form 
+                        id='deleteButton'
                         action="/delete"
                         name="deleteButton"
                         method='POST'
                         onSubmit={deleteTweet}
                     >
                         <input type="submit" value="Delete" />
+                        <input type="hidden" id="_id" name='_id' value={tweet._id} />
+                    </form>
+
+                    <form 
+                        id='toggleButton'
+                        action="/togglePrivacy"
+                        name='togglePrivacy'
+                        method='POST'
+                        onSubmit={togglePrivacy}
+                    >
+                        <input type="submit" value="Toggle Privacy?" />
                         <input type="hidden" id="_id" name='_id' value={tweet._id} />
                     </form>
                 </div>
@@ -172,7 +184,7 @@ const TweetList = (props) => {
         return (
             <div key={tweet._id} id='tweetBox' >
                 <h3 id='tweetUsername' >{tweet.username}</h3>
-                <h3 id='date' >{tweet.createdDate}</h3>
+                <h3 id='date' >{finalDate}</h3>
                 <h3 id='actualTweet' >{tweet.tweet}</h3>
             </div>
         );

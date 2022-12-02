@@ -53,14 +53,44 @@
     overflow: hidden;
 }
 
-#tweetUsername{
-    float:left; 
-    display:inline; 
+#username{
     width: 49%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #949494;
+    border-radius: 4px;
 }
 
-#actualTweet{
-    float:left; 
+#actualTweet{ 
     display:inline; 
-    width: 49%;
+    width: auto;
 }
+
+
+#deleteButton{
+    float: right;
+    margin-left: 1%;
+    margin-right: 2%;
+}
+
+#toggleButton{
+    float: right;
+}
+
+#editTweetButton{
+    float: left;
+}
+
+#editTweetButton input{
+    float: left;
+}
+
+#editTweetForm{
+    float: left;
+    margin: auto;
+    margin-top: 2%;
+}
+
+
+

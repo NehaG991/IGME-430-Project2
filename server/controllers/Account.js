@@ -110,17 +110,16 @@ const changeUsername = async (req, res) => {
     return res.status(400).json({ error: 'All fields are required!' });
   }
 
-  try{
+  try {
     await Account.changeUsername(req.session.account._id, newUsername);
     console.log('USERNAME UPDATED');
     await Tweet.updateUsername(oldUsername, newUsername);
     console.log('TWEET USERNAME UPDATED');
     return res.status(200).json({ error: 'Username successfully updated' });
-  } catch (err){
+  } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error has occured!' });
   }
-
 };
 
 module.exports = {

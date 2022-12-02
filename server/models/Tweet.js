@@ -64,8 +64,8 @@ TweetSchema.statics.editTweet = async (filter, newTweet) => {
 };
 
 TweetSchema.statics.updateUsername = async (oldUsername, newUsername) => {
-  const filter = {username: oldUsername};
-  const update = {username: newUsername};
+  const filter = { username: oldUsername };
+  const update = { username: newUsername };
   const doc = await TweetModel.updateMany(filter, update);
 
   return doc;
