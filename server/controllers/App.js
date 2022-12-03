@@ -2,10 +2,13 @@ const models = require('../models');
 
 const { Tweet } = models;
 
+// Renders app page
 const appPage = (req, res) => res.render('app', { csrfToken: req.csrfToken() });
 
+// Renders error page
 const errorPage = (req, res) => res.status(404).render('404', { csrfToken: req.csrfToken() });
 
+// Handles making tweet
 const makeTweet = async (req, res) => {
   if (!req.body.tweet) {
     return res.status(400).json({ error: 'You must type something' });
@@ -35,6 +38,7 @@ const makeTweet = async (req, res) => {
   }
 };
 
+// Gets tweets if user is logged in
 const getLogInTweets = (req, res) => {
   const filter = { $or: [{ owner: req.session.account._id }, { private: false }] };
   Tweet.findTweet(filter, (err, docs) => {
@@ -47,6 +51,7 @@ const getLogInTweets = (req, res) => {
   });
 };
 
+// Gets tweets if no one is logged in
 const getPublicTweets = (req, res) => {
   const filter = { private: false };
   Tweet.findTweet(filter, (err, docs) => {
@@ -59,6 +64,7 @@ const getPublicTweets = (req, res) => {
   });
 };
 
+// Handles deleting tweets
 const deleteTweet = async (req, res) => {
   try {
     await Tweet.deleteOne({ _id: req.body._id });
@@ -70,6 +76,7 @@ const deleteTweet = async (req, res) => {
   }
 };
 
+// Handles toggling privacy
 const togglePrivacy = async (req, res) => {
   try {
     const filter = { _id: req.body._id };
@@ -82,6 +89,7 @@ const togglePrivacy = async (req, res) => {
   }
 };
 
+// Handles Editing tweet
 const editTweet = async (req, res) => {
   try {
     const filter = { _id: req.body._id };
