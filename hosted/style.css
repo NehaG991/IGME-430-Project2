@@ -62,9 +62,16 @@
     border-radius: 4px;
 }
 
+#actualTweetBox{
+    background-color: #D3D3D3;
+    border: 2px solid #949494;
+    border-radius: 4px;
+}
+
 #actualTweet{ 
     display:inline; 
     width: auto;
+    font-size: 50px;
 }
 
 

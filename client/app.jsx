@@ -143,7 +143,9 @@ const TweetList = (props) => {
                         <h3 id='tweetUsername' >{tweet.username}</h3>
                     </div>
                     <h3 id='date' >{finalDate}</h3>
-                    <h3 id='actualTweet' >{tweet.tweet}</h3>
+                    <div id='actualTweetBox'>
+                        <h3 id='actualTweet' >{tweet.tweet}</h3>
+                    </div>
                     <h3 id="tweetPrivacy">{tweetPrivacy}</h3>
 
                     <form 
